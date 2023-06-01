@@ -1,0 +1,143 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.luolab.measureppg"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="15"
+8-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="27" />
+9-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml
+10
+11    <uses-feature android:name="android.hardware.usb.host" />
+11-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:5:5-62
+11-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:5:19-59
+12
+13    <uses-permission android:name="android.permission.CAMERA" />
+13-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:7:5-65
+13-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:7:22-62
+14    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILES" />
+14-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:8:5-77
+14-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:8:22-75
+15    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+15-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:9:5-79
+15-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:9:22-77
+16    <uses-permission android:name="android.permission.VIBRATE" />
+16-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:10:5-65
+16-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:10:22-63
+17
+18    <uses-feature
+18-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:12:5-84
+19        android:name="android.hardware.camera"
+19-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:12:19-57
+20        android:required="false" />
+20-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:12:58-82
+21    <uses-feature
+21-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:13:5-94
+22        android:name="android.hardware.camera.autofocus"
+22-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:13:19-67
+23        android:required="false" />
+23-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:13:68-92
+24    <uses-feature
+24-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:14:5-90
+25        android:name="android.hardware.camera.front"
+25-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:14:19-63
+26        android:required="false" />
+26-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:14:64-88
+27    <uses-feature
+27-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:15:5-100
+28        android:name="android.hardware.camera.front.autofocus"
+28-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:15:19-73
+29        android:required="false" />
+29-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:15:74-98
+30
+31    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+31-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:17:5-80
+31-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:17:22-78
+32    <uses-permission android:name="android.permission.INTERNET" />
+32-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:18:5-67
+32-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:18:22-64
+33    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+33-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:19:5-79
+33-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:19:22-76
+34
+35    <application
+35-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:21:5-42:19
+36        android:allowBackup="true"
+36-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:22:9-35
+37        android:debuggable="true"
+38        android:icon="@mipmap/ic_launcher"
+38-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:23:9-43
+39        android:label="@string/app_name"
+39-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:24:9-41
+40        android:roundIcon="@mipmap/ic_launcher_round"
+40-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:25:9-54
+41        android:supportsRtl="true"
+41-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:26:9-35
+42        android:testOnly="true"
+43        android:theme="@style/AppTheme" >
+43-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:27:9-40
+44        <activity
+44-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:28:9-39:20
+45            android:name="com.example.luolab.measureppg.MainActivity"
+45-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:29:13-41
+46            android:label="@string/app_name"
+46-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:30:13-45
+47            android:theme="@style/AppTheme.NoActionBar" >
+47-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:31:13-56
+48            <intent-filter>
+48-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:32:13-38:29
+49                <action android:name="android.intent.action.MAIN" />
+49-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:33:17-68
+49-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:33:25-66
+50                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+50-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:35:17-90
+50-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:35:25-87
+51
+52                <category android:name="android.intent.category.LAUNCHER" />
+52-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:37:17-76
+52-->D:\AIoT\Measure_PPG_UI_modified_latest\app\src\main\AndroidManifest.xml:37:27-74
+53            </intent-filter>
+54        </activity>
+55
+56        <service android:name="com.google.firebase.components.ComponentDiscoveryService" >
+56-->[com.google.firebase:firebase-database:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\7720f8653d45b894b86f443caeb6b1d9\firebase-database-16.1.0\AndroidManifest.xml:29:9-33:19
+56-->[com.google.firebase:firebase-database:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\7720f8653d45b894b86f443caeb6b1d9\firebase-database-16.1.0\AndroidManifest.xml:29:18-89
+57            <meta-data
+57-->[com.google.firebase:firebase-database:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\7720f8653d45b894b86f443caeb6b1d9\firebase-database-16.1.0\AndroidManifest.xml:30:13-32:85
+58                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+58-->[com.google.firebase:firebase-database:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\7720f8653d45b894b86f443caeb6b1d9\firebase-database-16.1.0\AndroidManifest.xml:31:17-109
+59                android:value="com.google.firebase.components.ComponentRegistrar" />
+59-->[com.google.firebase:firebase-database:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\7720f8653d45b894b86f443caeb6b1d9\firebase-database-16.1.0\AndroidManifest.xml:32:17-82
+60        </service>
+61
+62        <activity
+62-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\3c024a3a0e0effde8891d7952d2f11cf\play-services-base-16.0.1\AndroidManifest.xml:23:9-26:75
+63            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+63-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\3c024a3a0e0effde8891d7952d2f11cf\play-services-base-16.0.1\AndroidManifest.xml:24:13-79
+64            android:exported="false"
+64-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\3c024a3a0e0effde8891d7952d2f11cf\play-services-base-16.0.1\AndroidManifest.xml:25:13-37
+65            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+65-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\3c024a3a0e0effde8891d7952d2f11cf\play-services-base-16.0.1\AndroidManifest.xml:26:13-72
+66
+67        <provider
+67-->[com.google.firebase:firebase-common:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\691eaa42fb4d008e9ed2fb650c333d98\firebase-common-16.1.0\AndroidManifest.xml:12:9-16:39
+68            android:name="com.google.firebase.provider.FirebaseInitProvider"
+68-->[com.google.firebase:firebase-common:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\691eaa42fb4d008e9ed2fb650c333d98\firebase-common-16.1.0\AndroidManifest.xml:13:13-77
+69            android:authorities="com.example.luolab.measureppg.firebaseinitprovider"
+69-->[com.google.firebase:firebase-common:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\691eaa42fb4d008e9ed2fb650c333d98\firebase-common-16.1.0\AndroidManifest.xml:14:13-72
+70            android:exported="false"
+70-->[com.google.firebase:firebase-common:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\691eaa42fb4d008e9ed2fb650c333d98\firebase-common-16.1.0\AndroidManifest.xml:15:13-37
+71            android:initOrder="100" />
+71-->[com.google.firebase:firebase-common:16.1.0] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\691eaa42fb4d008e9ed2fb650c333d98\firebase-common-16.1.0\AndroidManifest.xml:16:13-36
+72
+73        <meta-data
+73-->[com.google.android.gms:play-services-basement:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\41df0cc1dc043c33ef3403236777e281\play-services-basement-16.0.1\AndroidManifest.xml:23:9-25:69
+74            android:name="com.google.android.gms.version"
+74-->[com.google.android.gms:play-services-basement:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\41df0cc1dc043c33ef3403236777e281\play-services-basement-16.0.1\AndroidManifest.xml:24:13-58
+75            android:value="@integer/google_play_services_version" />
+75-->[com.google.android.gms:play-services-basement:16.0.1] C:\Users\Justin\.gradle\caches\transforms-2\files-2.1\41df0cc1dc043c33ef3403236777e281\play-services-basement-16.0.1\AndroidManifest.xml:25:13-66
+76    </application>
+77
+78</manifest>
