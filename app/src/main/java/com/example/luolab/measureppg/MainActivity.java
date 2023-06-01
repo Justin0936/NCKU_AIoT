@@ -29,7 +29,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+//Justin Add
+import com.clj.fastble.BleManager;
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -53,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -88,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         createTabIcons();
+        //Justin Add
+        //BLE initialize
+        BleManager.getInstance().init(getApplication());
+        //BLE configuration
+        BleManager.getInstance()
+                .enableLog(true)
+                .setReConnectCount(1, 5000)
+                .setConnectOverTime(20000)
+                .setOperateTimeout(5000);
 
     }
     private void createTabIcons()
