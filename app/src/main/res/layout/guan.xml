@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
@@ -420,7 +428,42 @@
                 android:text="" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/Show_B_List"
+                android:layout_width="match_parent"
+                android:layout_height="180dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_paired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="搜尋藍芽"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_conn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="接收藍芽資訊"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
 
 
 </LinearLayout>
+
+</ScrollView>

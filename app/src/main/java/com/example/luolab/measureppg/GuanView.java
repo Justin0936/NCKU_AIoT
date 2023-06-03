@@ -91,9 +91,21 @@ import uk.me.berndporr.iirj.Butterworth;
 import com.github.psambit9791.jdsp.windows.Hanning;
 import com.github.psambit9791.jdsp.transform.FastFourier;
 
-
-
 import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_DETACHED;
+//Justin
+import android.os.Build;
+//import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.widget.ListView;
+import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleGattCallback;
+import com.clj.fastble.callback.BleNotifyCallback;
+import com.clj.fastble.callback.BleReadCallback;
+import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.exception.BleException;
+import com.clj.fastble.scan.BleScanRuleConfig;
 import static java.lang.Double.NaN;
 
 public class GuanView extends Fragment {
@@ -447,7 +459,18 @@ public class GuanView extends Fragment {
     private Date current2;
 
     public final String ACTION_USB_PERMISSION = "com.hariharan.arduinousb.USB_PERMISSION";
-
+    //Justin Add
+    public final static String ACTION_GATT_CONNECTED =
+            "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
+    public final static String ACTION_GATT_DISCONNECTED =
+            "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
+    private ArrayAdapter<String> deviceName;
+    private ArrayAdapter<String> deviceId;
+    private List<BleDevice> bleDeviceList = new ArrayList<>();
+    private Button button_paired;
+    private Button button_find;
+    private ListView event_listView;
+    private BleDevice nowBleDevice;
 
     private static final Random RANDOM = new Random();
     private int lastX = 0;
@@ -663,9 +686,6 @@ public class GuanView extends Fragment {
         post_start_mpoint = PPGTime*60*ppg_fs;
         finish_mpoint = ((PPGTime+postRecordPPGTime)*60*ppg_fs)-5;
 
-
-
-
         GuanView = inflater.inflate(R.layout.guan, container, false);
         LInflater = inflater;
         fileHandler = new Handler();
@@ -680,9 +700,6 @@ public class GuanView extends Fragment {
 
         trigger_val = Math.abs(target_val - init_val)/feedback_time;
         selectedPara = "Breathing rate";
-
-
-
 
         radioGroup = GuanView.findViewById(R.id.radioGroupx);
         buttonApply = GuanView.findViewById(R.id.ok_btn);
@@ -732,6 +749,29 @@ public class GuanView extends Fragment {
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         filter.addAction(ACTION_USB_DEVICE_DETACHED);
         inflater.getContext().registerReceiver(broadcastReceiver, filter);
+        //Justin Add
+        //同地方註冊藍芽使用
+        button_paired = (Button) GuanView.findViewById(R.id.btn_paired);
+        button_find = (Button) GuanView.findViewById(R.id.btn_conn);
+        event_listView = (ListView) GuanView.findViewById(R.id.Show_B_List);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            event_listView.setNestedScrollingEnabled(true);
+        }
+        deviceName = new ArrayAdapter<String>((Activity) LInflater.getContext(), android.R.layout.simple_expandable_list_item_1);
+        deviceId = new ArrayAdapter<String>((Activity) LInflater.getContext(), android.R.layout.simple_expandable_list_item_1);
+        button_paired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startScan();
+            }
+        });
+        button_find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyBle();
+                //readBleData();
+            }
+        });
 
         //使用者介面物件宣告
         G_Graph = GuanView.findViewById(R.id.data_chart);
@@ -3125,7 +3165,10 @@ public class GuanView extends Fragment {
             Data[0] = (byte)(base+PPGTime);
 
         }
-        serialPort.write(Data);
+        //Justin Add & Modify
+        //serialPort.write(Data);
+        writeToBle(Data);
+        notifyBle();
     }
 
     // 將收到的 Serial 資料存入 Queue
@@ -4270,5 +4313,182 @@ public class GuanView extends Fragment {
         return pad_arr;
     }
 
+    //Justin Add
+    private void setScanRule() {
+        BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
+//                .setDeviceMac("0C:B2:B7:1E:29:FB")  // 只扫描指定mac的设备，可选
+                .setScanTimeOut(10000)              // 扫描超时时间，可选，默认10秒
+                .build();
+        BleManager.getInstance().initScanRule(scanRuleConfig);
+    }
+    private void startScan() {
+        setScanRule();
+        // Example usage of MyBleManager's public method
+        BleManager.getInstance().scan(new BleScanCallback() {
+            @Override
+            public void onScanStarted(boolean success) {
+                button_paired.setEnabled(false); // 禁用按钮
+                button_paired.setText("搜尋中~~~"); // 设置按钮的新文字
+                Log.d("onScanStarted", "成功");
+            }
 
+            @Override
+            public void onLeScan(BleDevice bleDevice) {
+//                Log.d("onLeScan", bleDevice.getName());
+            }
+
+            @Override
+            public void onScanning(BleDevice bleDevice) {
+//                Log.d("onScanning", bleDevice.getName());
+                deviceName.add(bleDevice.getName() + "  " +bleDevice.getMac());
+                deviceId.add(bleDevice.getMac());
+            }
+
+            @Override
+            public void onScanFinished(List<BleDevice> scanResultList) {
+                bleDeviceList = scanResultList;
+                event_listView.setAdapter(deviceName);
+                event_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> partent, View view, int position, long id) {
+                        String choseDevice = deviceId.getItem(position);
+                        for (BleDevice bleDevice : bleDeviceList) {
+                            if (bleDevice.getMac().equals(choseDevice)) {
+                                nowBleDevice = bleDevice;
+                                connect(nowBleDevice);
+                                break;
+                            }
+                        }
+                        Toast.makeText((Activity)LInflater.getContext(), "選擇了:" + choseDevice, Toast.LENGTH_SHORT).show();
+                        deviceName.clear();
+                        deviceId.clear();
+                    }
+                });
+                button_paired.setEnabled(true); // 禁用按钮
+                button_paired.setText("重新搜尋"); // 设置按钮的新文字
+                Log.d("onScanFinished", "onScanFinished");
+            }
+        });
+    }
+    private void connect(final BleDevice bleDevice) {
+        BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
+            @Override
+            public void onStartConnect() {
+                button_paired.setEnabled(false); // 禁用按钮
+                button_paired.setText("開始連接"); // 设置按钮的新文字
+                Log.d("onStartConnect", "onStartConnect");
+            }
+
+            @Override
+            public void onConnectFail(BleDevice bleDevice, BleException exception) {
+                button_paired.setEnabled(true); // 禁用按钮
+                button_paired.setText("搜尋藍芽"); // 设置按钮的新文字
+                SerialFlag=false;
+                setButtonEnable(SerialFlag);
+                Toast.makeText((Activity)LInflater.getContext(), "藍芽連接失敗", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                button_paired.setEnabled(false); // 禁用按钮
+                button_paired.setText("已成功連接" + bleDevice.getName() + ' ' + bleDevice.getMac()); // 设置按钮的新文字
+                SerialFlag=true;
+                setButtonEnable(SerialFlag);
+                Log.d("onConnectSuccess", "onConnectSuccess");
+            }
+
+            @Override
+            public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                if (isActiveDisConnected) {
+                    Toast.makeText((Activity)LInflater.getContext(), "active_disconnected", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText((Activity)LInflater.getContext(), "disconnected", Toast.LENGTH_LONG).show();
+                }
+                button_paired.setEnabled(true); // 禁用按钮
+                button_paired.setText("搜尋藍芽"); // 设置按钮的新文字
+            }
+        });
+    }
+
+    private void notifyBle(){
+        //String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
+        String uuid_service = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        //String uuid_characteristic_notify = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        String uuid_characteristic_notify = "0000dfb2-0000-1000-8000-00805f9b34fb";
+        BleManager.getInstance().notify(
+                nowBleDevice,
+                uuid_service,
+                uuid_characteristic_notify,
+                new BleNotifyCallback() {
+                    @Override
+                    public void onNotifySuccess() {
+                        // 打开通知操作成功
+                        Log.d("notify", "Success");
+                        button_find.setEnabled(false); // 禁用按钮
+                        button_find.setText("成功開啟通知"); // 设置按钮的新文字
+                        Toast.makeText((Activity)LInflater.getContext(), "開始接收藍芽資料", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNotifyFailure(BleException exception) {
+                        Log.d("notify", "Failure");
+                        // 打开通知操作失败
+                        button_find.setEnabled(true); // 禁用按钮
+                        button_find.setText("通知操作失敗"); // 设置按钮的新文字
+                        Toast.makeText((Activity)LInflater.getContext(), "接收藍芽資料失敗", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onCharacteristicChanged(byte[] data) {
+                        // 打开通知后，设备发过来的数据将在这里出现
+//                        Log.d("data", String.valueOf(data));
+                        handleData(data, data.length,LInflater);
+                    }
+                });
+    }
+
+    private void writeToBle(byte[] Data){
+        //String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
+        String uuid_service = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        //String uuid_characteristic_write = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        String uuid_characteristic_write = "0000dfb2-0000-1000-8000-00805f9b34fb";
+        BleManager.getInstance().write(
+                nowBleDevice,
+                uuid_service,
+                uuid_characteristic_write,
+                Data,
+                new BleWriteCallback() {
+                    @Override
+                    public void onWriteSuccess(int current, int total, byte[] justWrite) {
+                        Log.d("onWriteSuccess", "current: " + String.valueOf(current) + "total: " + String.valueOf(total) + "justWrite: " + justWrite);
+                    }
+
+                    @Override
+                    public void onWriteFailure(BleException exception) {
+                        Log.d("onWriteSuccess", "onWriteFailure");
+                    }
+                });
+    }
+
+    private void readBleData(){
+        //String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
+        String uuid_service = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        //String uuid_characteristic_read = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        String uuid_characteristic_read = "0000dfb2-0000-1000-8000-00805f9b34fb";
+        BleManager.getInstance().read(
+                nowBleDevice,
+                uuid_service,
+                uuid_characteristic_read,
+                new BleReadCallback() {
+                    @Override
+                    public void onReadSuccess(byte[] data) {
+                        handleData(data, data.length,LInflater);
+                    }
+
+                    @Override
+                    public void onReadFailure(BleException exception) {
+
+                    }
+                });
+    }
 }

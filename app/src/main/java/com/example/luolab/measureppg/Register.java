@@ -45,16 +45,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 //Justin Add
-//import android.bluetooth.BluetoothGatt;
-//import com.clj.fastble.BleManager;
-//import com.clj.fastble.callback.BleGattCallback;
-//import com.clj.fastble.callback.BleNotifyCallback;
-//import com.clj.fastble.callback.BleScanCallback;
-//import com.clj.fastble.data.BleDevice;
-//import com.clj.fastble.exception.BleException;
-//import com.clj.fastble.scan.BleScanRuleConfig;
-//import android.widget.ListView;
-//import java.io.IOException;
+import android.bluetooth.BluetoothGatt;
+import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleGattCallback;
+import com.clj.fastble.callback.BleNotifyCallback;
+import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.exception.BleException;
+import com.clj.fastble.scan.BleScanRuleConfig;
+import android.widget.ListView;
+import java.io.IOException;
 import java.util.List;
 import static com.example.luolab.measureppg.MainActivity.PlaceholderFragment.ARG_SECTION_NUMBER;
 

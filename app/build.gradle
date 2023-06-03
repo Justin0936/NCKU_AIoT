@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    compileSdk 29
     defaultConfig {
         applicationId "com.example.luolab.measureppg"
         minSdkVersion 15
@@ -35,6 +35,7 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude("META-INF/*.kotlin_module")
     }
+    buildToolsVersion '29.0.2'
 }
 
 dependencies {
