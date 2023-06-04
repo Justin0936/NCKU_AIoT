@@ -93,9 +93,16 @@ import com.github.psambit9791.jdsp.transform.FastFourier;
 
 import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_DETACHED;
 //Justin
+import android.os.Process;
 import android.os.Build;
-//import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
+import java.util.UUID;
 import android.widget.ListView;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
@@ -110,6 +117,7 @@ import static java.lang.Double.NaN;
 
 public class GuanView extends Fragment {
 
+    private BleDevice nowBleDevice;
     private final int SerialDataSize = 90060;
     private View GuanView;
     private View menu_dialogView;
@@ -470,7 +478,6 @@ public class GuanView extends Fragment {
     private Button button_paired;
     private Button button_find;
     private ListView event_listView;
-    private BleDevice nowBleDevice;
 
     private static final Random RANDOM = new Random();
     private int lastX = 0;
@@ -4407,14 +4414,31 @@ public class GuanView extends Fragment {
                 button_paired.setEnabled(true); // 禁用按钮
                 button_paired.setText("搜尋藍芽"); // 设置按钮的新文字
             }
+
+
         });
+        //Todo Justin.
+        /*
+        if(BleManager.getInstance().isConnected(bleDevice)) {
+            BluetoothGatt gatt = BleManager.getInstance().getBluetoothGatt(bleDevice);
+            List<BluetoothGattService> serviceList = bluetoothGatt.getServices();
+            for (BluetoothGattService service : serviceList) {
+                UUID uuid_service = service.getUuid();
+                Toast.makeText((Activity)LInflater.getContext(), "uuid_service:" + uuid_service, Toast.LENGTH_SHORT).show();
+                List<BluetoothGattCharacteristic> characteristicList= service.getCharacteristics();
+                for(BluetoothGattCharacteristic characteristic : characteristicList) {
+                    UUID uuid_chara = characteristic.getUuid();
+                    Toast.makeText((Activity)LInflater.getContext(), "uuid_chara:" + uuid_chara, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        */
     }
 
     private void notifyBle(){
-        //String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
-        String uuid_service = "0000dfb1-0000-1000-8000-00805f9b34fb";
-        //String uuid_characteristic_notify = "0000dfb1-0000-1000-8000-00805f9b34fb";
-        String uuid_characteristic_notify = "0000dfb2-0000-1000-8000-00805f9b34fb";
+        String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
+        String uuid_characteristic_notify = "0000dfb1-0000-1000-8000-00805f9b34fb";
         BleManager.getInstance().notify(
                 nowBleDevice,
                 uuid_service,
@@ -4448,10 +4472,10 @@ public class GuanView extends Fragment {
     }
 
     private void writeToBle(byte[] Data){
-        //String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
-        String uuid_service = "0000dfb1-0000-1000-8000-00805f9b34fb";
-        //String uuid_characteristic_write = "0000dfb1-0000-1000-8000-00805f9b34fb";
-        String uuid_characteristic_write = "0000dfb2-0000-1000-8000-00805f9b34fb";
+        String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
+        String uuid_characteristic_write = "0000dfb1-0000-1000-8000-00805f9b34fb";
+        //Justin Todo
+        //"0000dfb2-0000-1000-8000-00805f9b34fb"
         BleManager.getInstance().write(
                 nowBleDevice,
                 uuid_service,
@@ -4471,10 +4495,8 @@ public class GuanView extends Fragment {
     }
 
     private void readBleData(){
-        //String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
-        String uuid_service = "0000dfb1-0000-1000-8000-00805f9b34fb";
-        //String uuid_characteristic_read = "0000dfb1-0000-1000-8000-00805f9b34fb";
-        String uuid_characteristic_read = "0000dfb2-0000-1000-8000-00805f9b34fb";
+        String uuid_service = "0000dfb0-0000-1000-8000-00805f9b34fb";
+        String uuid_characteristic_read = "0000dfb1-0000-1000-8000-00805f9b34fb";
         BleManager.getInstance().read(
                 nowBleDevice,
                 uuid_service,
